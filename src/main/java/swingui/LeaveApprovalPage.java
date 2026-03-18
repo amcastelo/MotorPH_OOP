@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import service.AppSession;
 
 
 
@@ -253,6 +254,7 @@ public class LeaveApprovalPage extends JPanel {
  */
     private void showDetailsDialog(LeaveRequest r) {
         boolean isCompleted = r != null && r.getStatus() != null && r.getStatus() != LeaveStatus.PENDING;
+        boolean isCurrentUser =r != null &&AppSession.getCurrentUser() != null &&safe(r.getEmployeeId()).equals(safe(AppSession.getCurrentUser().getEmployeeNumber()));
 
         JDialog dlg = new JDialog(SwingUtilities.getWindowAncestor(this), "Leave Request", Dialog.ModalityType.APPLICATION_MODAL);
 
@@ -288,8 +290,10 @@ public class LeaveApprovalPage extends JPanel {
         comments.setLineWrap(true);
         comments.setWrapStyleWord(true);
         comments.setText(safe(r.getHrComments()));
-        comments.setEditable(!isCompleted);
-        comments.setEnabled(!isCompleted);
+        boolean disableComments = isCompleted || isCurrentUser;
+
+        comments.setEditable(!disableComments);
+        comments.setEnabled(!disableComments);
 
         JScrollPane sp = new JScrollPane(comments);
         sp.setBorder(null);
@@ -301,7 +305,7 @@ public class LeaveApprovalPage extends JPanel {
         JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         actions.setOpaque(false);
 
-        if (isCompleted) {
+        if (isCompleted || isCurrentUser) {
             JButton close = new JButton("Close");
             close.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             close.putClientProperty("FlatLaf.style", "arc: 12; margin: 10,14,10,14; font: bold 13;");
@@ -340,7 +344,7 @@ public class LeaveApprovalPage extends JPanel {
             actions.add(deny);
             actions.add(approve);
         }
-JPanel south = new JPanel(new BorderLayout(0, 12));
+        JPanel south = new JPanel(new BorderLayout(0, 12));
         south.setOpaque(false);
         south.add(commentsWrap, BorderLayout.CENTER);
         south.add(actions, BorderLayout.SOUTH);
