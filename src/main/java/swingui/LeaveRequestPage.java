@@ -1,10 +1,12 @@
 package swingui;
 
 import com.toedter.calendar.JDateChooser;
+import dao.EmployeeFileManager.Result;
 import dao.LeaveLedgerRepository;
 import model.Employee;
 import model.LeaveRequest;
 import model.LeaveStatus;
+import service.LeaveService;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -124,7 +126,7 @@ public class LeaveRequestPage extends JPanel {
 
 
         typeRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, fieldH));
-JPanel reasonWrap = new JPanel(new BorderLayout(0, 8));
+        JPanel reasonWrap = new JPanel(new BorderLayout(0, 8));
         reasonWrap.setOpaque(false);
         reasonWrap.add(metaLabel("Reason"), BorderLayout.NORTH);
         reasonArea.setLineWrap(true);
@@ -237,35 +239,27 @@ JPanel reasonWrap = new JPanel(new BorderLayout(0, 8));
 
         LocalDate start = toLocalDate(startChooser.getDate());
         LocalDate end = toLocalDate(endChooser.getDate());
-        if (start == null || end == null) {
-            JOptionPane.showMessageDialog(this, "Please select start and end dates.");
-            return;
-        }
-        if (end.isBefore(start)) {
-            JOptionPane.showMessageDialog(this, "End date must not be earlier than start date.");
-            return;
-        }
-
         String type = (String) typeCombo.getSelectedItem();
         String reason = reasonArea.getText() == null ? "" : reasonArea.getText().trim();
-        if (type == null || type.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Please select a leave type.");
-            return;
-        }
-        if (reason.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Please enter a reason for your leave request.");
-            return;
-        }
+        
+        LeaveService leaveService = new LeaveService();
 
-        LeaveRequest req = LeaveRequest.newPending(employee, start, end, type, reason);
         try {
-            repository.upsert(req);
-            JOptionPane.showMessageDialog(this, "Leave request submitted.", "Submitted", JOptionPane.INFORMATION_MESSAGE);
-            reasonArea.setText("");
-            reload();
+            Result result = leaveService.submitLeaveRequest(employee, start, end, type, reason);
+
+            JOptionPane.showMessageDialog(this, result.getMessage(),
+                    result.isOk() ? "Submitted" : "Error",
+                    result.isOk() ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);
+
+            if (result.isOk()) {
+                reasonArea.setText("");
+                reload();
+            }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Failed to save leave request: " + ex.getMessage(),
-                    "Save Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Failed to save leave request: " + ex.getMessage(),
+                    "Save Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 

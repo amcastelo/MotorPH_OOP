@@ -173,7 +173,7 @@ public class HREmployeeManagementPage extends JPanel {
                 "N/A",
                 "N/A",
                 "N/A",
-                "N/A",
+                "0",
                 "N/A",
                 "N/A",
                 "N/A",

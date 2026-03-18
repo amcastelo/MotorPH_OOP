@@ -253,72 +253,135 @@ public class EmployeeFileManager implements FileLoader<Employee> {
             return Result.fail("Invalid employee data.");
         }
 
-        String idToUpdate = empData[0] == null ? "" : empData[0].trim();
-        String tempFilePath = "src/main/resources/temp.txt";
+        for (int i = 0; i < empData.length; i++) {
+            empData[i] = safeTrim(empData[i]);
+        }
 
-        try (
-            BufferedReader reader = new BufferedReader(new FileReader(employeeFilePath));
-            BufferedWriter tempWriter = new BufferedWriter(new FileWriter(tempFilePath))
-        ) {
+        String employeeId = empData[0];
+        String lastName = empData[1];
+        String firstName = empData[2];
+        String birthday = empData[3];
+        String address = empData[4];
+        String phoneNumber = empData[5];
+        String sss = empData[6];
+        String philHealth = empData[7];
+        String tin = empData[8];
+        String pagibig = empData[9];
+        String status = empData[10];
+        String position = empData[11];
+        String immediateSupervisor = empData[12];
+        String basicSalary = empData[13];
+        String riceSubsidy = empData[14];
+        String phoneAllowance = empData[15];
+        String clothingAllowance = empData[16];
+        String grossSemiMonthlyRate = empData[17];
+        String hourlyRate = empData[18];
+
+        if (employeeId.isEmpty() || lastName.isEmpty() || firstName.isEmpty() ||
+            birthday.isEmpty() || address.isEmpty() || phoneNumber.isEmpty() ||
+            sss.isEmpty() || philHealth.isEmpty() || tin.isEmpty() || pagibig.isEmpty() ||
+            status.isEmpty() || position.isEmpty() || immediateSupervisor.isEmpty() ||
+            basicSalary.isEmpty() || riceSubsidy.isEmpty() || phoneAllowance.isEmpty() ||
+            clothingAllowance.isEmpty() || grossSemiMonthlyRate.isEmpty() || hourlyRate.isEmpty()) {
+            return Result.fail("All fields must be filled in.");
+        }
+
+        if (!isNumeric(basicSalary)) {
+            return Result.fail("Basic Salary must be numeric.");
+        }
+        if (!isNumeric(riceSubsidy)) {
+            return Result.fail("Rice Subsidy must be numeric.");
+        }
+        if (!isNumeric(phoneAllowance)) {
+            return Result.fail("Phone Allowance must be numeric.");
+        }
+        if (!isNumeric(clothingAllowance)) {
+            return Result.fail("Clothing Allowance must be numeric.");
+        }
+        if (!isNumeric(grossSemiMonthlyRate)) {
+            return Result.fail("Gross Semi-monthly Rate must be numeric.");
+        }
+        if (!isNumeric(hourlyRate)) {
+            return Result.fail("Hourly Rate must be numeric.");
+        }
+        
+        if (!isNumeric(phoneNumber)) {
+            return Result.fail("Hourly Rate must be numeric.");
+        }
+
+        if (!isValidSSS(sss)) {
+            return Result.fail("Invalid SSS format. Format 12-3456789-0.");
+        }
+
+        if (!isValidPhilHealth(philHealth)) {
+            return Result.fail("Invalid PhilHealth format. Format 012345678912");
+        }
+
+        if (!isValidTIN(tin)) {
+            return Result.fail("Invalid TIN format. Format 123-456-789.");
+        }
+
+        if (!isValidPagibig(pagibig)) {
+            return Result.fail("Invalid Pag-IBIG format. Format 012345678912");
+        }
+
+        String updatedLine = String.join(",",
+            csvSafe(employeeId),
+            csvSafe(lastName),
+            csvSafe(firstName),
+            csvSafe(birthday),
+            csvSafe(address), 
+            csvSafe(phoneNumber),
+            csvSafe(sss),
+            csvSafe(philHealth),
+            csvSafe(tin),
+            csvSafe(pagibig),
+            csvSafe(status),
+            csvSafe(position),
+            csvSafe(immediateSupervisor),
+            csvSafe(basicSalary),
+            csvSafe(riceSubsidy),
+            csvSafe(phoneAllowance),
+            csvSafe(clothingAllowance),
+            csvSafe(grossSemiMonthlyRate),
+            csvSafe(hourlyRate)
+        );
+
+        List<String> updatedLines = new ArrayList<>();
+        boolean found = false;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(employeeFilePath))) {
             String line;
-            boolean recordUpdated = false;
-
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length > 0 && data[0].trim().equals(idToUpdate)) {
+                String[] parts = line.split(",", -1);
 
-                    String updatedLine = String.join(",",
-                        safeTrim(empData[0]),
-                        safeTrim(empData[1]),
-                        safeTrim(empData[2]),
-                        safeTrim(empData[3]),
-                        safeTrim(empData[4]),
-                        safeTrim(empData[5]),
-                        safeTrim(empData[6]),
-                        safeTrim(empData[7]),
-                        safeTrim(empData[8]),
-                        safeTrim(empData[9]),
-                        safeTrim(empData[10]),
-                        safeTrim(empData[11]),
-                        safeTrim(empData[12]),
-                        safeTrim(empData[13]),
-                        safeTrim(empData[14]),
-                        safeTrim(empData[15]),
-                        safeTrim(empData[16]),
-                        safeTrim(empData[17]),
-                        safeTrim(empData[18])
-                    );
-
-                    tempWriter.write(updatedLine);
-                    tempWriter.newLine();
-                    recordUpdated = true;
+                if (parts.length > 0 && safeTrim(parts[0]).equals(employeeId)) {
+                    updatedLines.add(updatedLine);
+                    found = true;
                 } else {
-                    tempWriter.write(line);
-                    tempWriter.newLine();
+                    updatedLines.add(line);
                 }
             }
-
-            if (!recordUpdated) {
-                new File(tempFilePath).delete();
-                return Result.fail("Record not found.");
-            }
-
         } catch (IOException e) {
             e.printStackTrace();
-            return Result.fail("Error processing file: " + e.getMessage());
+            return Result.fail("Error reading file: " + e.getMessage());
         }
 
-        File originalFile = new File(employeeFilePath);
-        File tempFile = new File(tempFilePath);
-
-        boolean deleted = originalFile.delete();
-        boolean renamed = tempFile.renameTo(originalFile);
-
-        if (!deleted || !renamed) {
-            return Result.fail("Error updating file.");
+        if (!found) {
+            return Result.fail("Employee ID not found.");
         }
 
-        return Result.ok("Record successfully updated.");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(employeeFilePath))) {
+            for (String line : updatedLines) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Result.fail("Error writing file: " + e.getMessage());
+        }
+
+        return Result.ok("Employee updated successfully.");
     }
 
     /**
@@ -372,7 +435,7 @@ public class EmployeeFileManager implements FileLoader<Employee> {
             status.isEmpty() || position.isEmpty() || immediateSupervisor.isEmpty() ||
             basicSalary.isEmpty() || riceSubsidy.isEmpty() || phoneAllowance.isEmpty() ||
             clothingAllowance.isEmpty() || grossSemiMonthlyRate.isEmpty() || hourlyRate.isEmpty()) {
-            return Result.fail("All required fields must be filled in.");
+            return Result.fail("All fields must be filled in.");
         }
 
         if (employeeIdExists(employeeId, employeeFilePath) || employeeIdExists(employeeId, removedFilePath)) {
@@ -397,6 +460,10 @@ public class EmployeeFileManager implements FileLoader<Employee> {
         if (!isNumeric(hourlyRate)) {
             return Result.fail("Hourly Rate must be numeric.");
         }
+        
+        if (!isNumeric(phoneNumber)) {
+            return Result.fail("Hourly Rate must be numeric.");
+        }
 
         if (!isValidSSS(sss)) {
             return Result.fail("Invalid SSS format. Format 12-3456789-0.");
@@ -407,7 +474,7 @@ public class EmployeeFileManager implements FileLoader<Employee> {
         }
 
         if (!isValidTIN(tin)) {
-            return Result.fail("Invalid TIN format. Format 123-456-789-000.");
+            return Result.fail("Invalid TIN format. Format 123-456-789.");
         }
 
         if (!isValidPagibig(pagibig)) {
@@ -479,7 +546,7 @@ public class EmployeeFileManager implements FileLoader<Employee> {
      */
     private boolean isValidTIN(String tin) {
         if (tin == null || tin.trim().isEmpty()) return false;
-        return tin.matches("^\\d{3}-\\d{3}-\\d{3}-\\d{3}$");
+        return tin.matches("^\\d{3}-\\d{3}-\\d{3}$");
     }
 
     /**
@@ -526,6 +593,22 @@ public class EmployeeFileManager implements FileLoader<Employee> {
             tokens.add(buffer.toString());
         }
         return tokens;
+    }
+    
+    private String csvSafe(String value) {
+        if (value == null) return "";
+
+        value = value.trim();
+
+        // Escape quotes
+        value = value.replace("\"", "\"\"");
+
+        // Wrap in quotes if needed
+        if (value.contains(",") || value.contains("\"")) {
+            value = "\"" + value + "\"";
+        }
+
+        return value;
     }
 
 

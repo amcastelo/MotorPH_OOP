@@ -33,3 +33,4 @@ Employee #,Last Name,First Name,Birthday,Address,Phone Number,SSS #,Philhealth #
 32,Castro,John Rafael,1992-02-09,"Hi-way, Yati, Liloan Cebu",332-424-955,26-7145133-4,601644902402,404-768-309-000,697763616000,Regular,"Sales & Marketing","Reyes, Isabella",52670,1500,1000,1000,26335,313.51
 33,Martinez,Carlos Ian,1990-11-16,"Bulala, Camalaniugan",078-854-208,11-5062972-7,380685387212,256-436-296-000,993372963726,Regular,"Supply Chain and Logistics","Reyes, Isabella",52670,1500,1000,1000,26335,313.51
 34,Santos,Beatriz,1990-08-07,"Agapita Building, Metro Manila",526-639-511,20-2987501-5,918460050077,911-529-713-000,874042259378,Regular,"Customer Service and Relations","Reyes, Isabella",52670,1500,1000,1000,26335,313.51
+38,Dela Cruz,Juan,1995-06-15,"123 Rizal St, Wow",09171234567,12-3456789-0,123456789012,123-456-789,123456789012,Regular,Software Developer,Maria Santos,0,0,0,0,0,0
