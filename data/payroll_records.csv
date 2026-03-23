@@ -1,0 +1,3 @@
+createdAtIso,employeeId,month,employeeName,gross,deductions,net,generatedByEmployeeId
+2026-02-19T21:35:45.125008700Z,19,12,"Rosario, Cydney",19285.92,1266.79,18019.13,11
+2026-02-19T21:47:21.067683200Z,3,12,"Aquino, Bianca Sofia",57142.4,2082.14,47128.45,11

@@ -167,6 +167,6 @@ public class LeaveLedgerRepository {
      * @return resulting value produced by this method.
      */
     private static Path getDefaultLedgerPath() {
-        return Paths.get(System.getProperty("user.home"), "MotorPH", "leave_ledger.csv");
+        return Paths.get("data", "leave_ledger.csv");
     }
 }

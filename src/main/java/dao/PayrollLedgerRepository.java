@@ -152,6 +152,6 @@ public class PayrollLedgerRepository {
      * @return resulting value produced by this method.
      */
     private static Path getDefaultLedgerPath() {
-        return Paths.get(System.getProperty("user.home"), "MotorPH", "payroll_ledger.csv");
+        return Paths.get("data", "payroll_ledger.csv");
     }
 }
