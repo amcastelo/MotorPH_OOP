@@ -460,7 +460,7 @@ public class PayrollProcessingPage extends JPanel {
         netLabel.setText("Net: -");
         attendanceModel.setRowCount(0);
     }
-
+    
 /**
  * Handles print to ledger.
  */

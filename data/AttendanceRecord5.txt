@@ -296,7 +296,7 @@ Employee #,Last Name,First Name,Date,Time-in,Time-out
 11,Salcedo,Anthony,09/22/2022,08:00,17:00
 11,Salcedo,Anthony,09/23/2022,08:00,17:00
 11,Salcedo,Anthony,09/26/2022,08:00,17:00
-11,Salcedo,Anthony,09/27/2022,08:00,17:00
+11,Salcedo,Anthony,09/27/2022,10:00,17:00
 11,Salcedo,Anthony,09/28/2022,08:00,17:00
 11,Salcedo,Anthony,09/29/2022,08:00,17:00
 11,Salcedo,Anthony,09/30/2022,08:00,17:00

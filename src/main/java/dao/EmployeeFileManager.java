@@ -19,8 +19,8 @@ import java.util.Map;
  */
 public class EmployeeFileManager implements FileLoader<Employee> {
 
-    private static String employeeFilePath = "src/main/resources/Data.txt";
-    private static final String removedFilePath = "src/main/resources/removedEmployees.txt";
+    private static String employeeFilePath = "src/main/resources/Data.csv";
+    private static final String removedFilePath = "src/main/resources/removedEmployees.csv";
     private static final String credentialsFilePath = "src/main/resources/credentials.csv";
 
     private static final List<Employee> employees = new ArrayList<>();

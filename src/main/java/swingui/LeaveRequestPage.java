@@ -134,7 +134,7 @@ public class LeaveRequestPage extends JPanel {
         JScrollPane sp = new JScrollPane(reasonArea);
         sp.setBorder(null);
         sp.getVerticalScrollBar().setUnitIncrement(16);
-        sp.putClientProperty("FlatLaf.style", "arc: 12;");
+        sp.putClientProperty("FlatLaf.style", "");
         reasonWrap.add(sp, BorderLayout.CENTER);
 
         submitBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
