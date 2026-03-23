@@ -306,7 +306,7 @@ public class EmployeeFileManager implements FileLoader<Employee> {
         }
         
         if (!isNumeric(phoneNumber)) {
-            return Result.fail("Hourly Rate must be numeric.");
+            return Result.fail("Phone number must be numeric.");
         }
 
         if (!isValidSSS(sss)) {
@@ -462,7 +462,7 @@ public class EmployeeFileManager implements FileLoader<Employee> {
         }
         
         if (!isNumeric(phoneNumber)) {
-            return Result.fail("Hourly Rate must be numeric.");
+            return Result.fail("Phone number must be numeric.");
         }
 
         if (!isValidSSS(sss)) {
