@@ -2,25 +2,25 @@ Sample login credentials
 
 Format: Email, Password
 
-**Employee: **
+**Employee:**
 
 allison.san@motorph.local,Emp@12345 
 
 beatriz.santos@motorph.local,jhrJRU2G
 
-**HR: **
+**HR:**
 
 andrea.villanueva@motorph.local, Hr@12345 
 
 brad.san.jose@motorph.local,yWmJF2kN
 
-**Finance: **
+**Finance:**
 
 bianca.aquino@motorph.local,Fin@12345 
 
 anthony.salcedo@motorph.local,CMU38kPN
 
-**IT: **
+**IT:**
 
 eduard.hernandez@motorph.local,It@12345
 
