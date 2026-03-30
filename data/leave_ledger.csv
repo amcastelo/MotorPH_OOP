@@ -1,0 +1,7 @@
+requestId,employeeId,lastName,firstName,position,hourlyRate,payPeriod,startDate,endDate,leaveType,reason,status,hrComments,createdAt,updatedAt
+f5933166-1266-4fb0-823d-eecf375081ac,11,Salcedo,Anthony,Payroll Manager,302.53,Mar2026,2026-03-02,2026-03-10,Planned Leave,Vacation with family.,DENIED,Must be 1 week notice. Form was sent on the same day.,2026-03-02T18:06:19.346730600+08:00,2026-03-02T18:07:17.164415200+08:00
+c67a7c99-85df-4e86-b846-9a16a89799c0,8,Romualdez,Alice,HR Rank and File,133.93,Mar2026,2026-03-01,2026-03-31,Planned Leave,Vacaycay,DENIED,Too long,2026-03-02T19:26:24.278264700+08:00,2026-03-02T19:26:37.527066100+08:00
+d8f6dc45-b135-42dd-ab92-cee1555dc4eb,6,Villanueva,Andrea Mae,HR Manager,313.51,Mar2026,2026-03-01,2026-03-02,Planned Leave,blabla,APPROVED,nah,2026-03-19T04:34:01.463624300+08:00,2026-03-23T16:53:30.976929200+08:00
+d677fffc-6b62-4d18-b2e1-bbd7aabf51f8,6,Villanueva,Andrea Mae,HR Manager,313.51,Mar2026,2026-03-19,2026-03-24,Planned Leave,Family,APPROVED,sure,2026-03-19T05:45:11.810865700+08:00,2026-03-23T16:53:27.837949500+08:00
+1bec3f46-5da4-43d0-93ec-794b1c532a3c,11,Salcedo,Anthony,Payroll Manager,302.53,Mar2026,2026-03-23,2026-03-24,Sick Leave,Down with cough,APPROVED,okay,2026-03-23T16:52:38.823690+08:00,2026-03-23T16:53:23.646588+08:00
+7525d6e3-b433-4ef5-9b09-8ffdb47a31d8,11,Salcedo,Anthony,Payroll Manager,302.53,Mar2026,2026-03-26,2026-03-27,Planned Leave,wow,PENDING,,2026-03-23T17:24:20.862153+08:00,2026-03-23T17:24:20.862153+08:00

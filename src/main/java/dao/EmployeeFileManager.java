@@ -19,8 +19,8 @@ import java.util.Map;
  */
 public class EmployeeFileManager implements FileLoader<Employee> {
 
-    private static String employeeFilePath = "src/main/resources/Data.txt";
-    private static final String removedFilePath = "src/main/resources/removedEmployees.txt";
+    private static String employeeFilePath = "src/main/resources/Data.csv";
+    private static final String removedFilePath = "src/main/resources/removedEmployees.csv";
     private static final String credentialsFilePath = "src/main/resources/credentials.csv";
 
     private static final List<Employee> employees = new ArrayList<>();
@@ -306,7 +306,7 @@ public class EmployeeFileManager implements FileLoader<Employee> {
         }
         
         if (!isNumeric(phoneNumber)) {
-            return Result.fail("Hourly Rate must be numeric.");
+            return Result.fail("Phone number must be numeric.");
         }
 
         if (!isValidSSS(sss)) {
@@ -462,7 +462,7 @@ public class EmployeeFileManager implements FileLoader<Employee> {
         }
         
         if (!isNumeric(phoneNumber)) {
-            return Result.fail("Hourly Rate must be numeric.");
+            return Result.fail("Phone number must be numeric.");
         }
 
         if (!isValidSSS(sss)) {
@@ -482,25 +482,25 @@ public class EmployeeFileManager implements FileLoader<Employee> {
         }
 
         String line = String.join(",",
-                employeeId,
-                lastName,
-                firstName,
-                birthday,
-                address,
-                phoneNumber,
-                sss,
-                philHealth,
-                tin,
-                pagibig,
-                status,
-                position,
-                immediateSupervisor,
-                basicSalary,
-                riceSubsidy,
-                phoneAllowance,
-                clothingAllowance,
-                grossSemiMonthlyRate,
-                hourlyRate
+                csvSafe(employeeId),
+                csvSafe(lastName),
+                csvSafe(firstName),
+                csvSafe(birthday),
+                csvSafe(address), // ✅ FIX HERE
+                csvSafe(phoneNumber),
+                csvSafe(sss),
+                csvSafe(philHealth),
+                csvSafe(tin),
+                csvSafe(pagibig),
+                csvSafe(status),
+                csvSafe(position),
+                csvSafe(immediateSupervisor),
+                csvSafe(basicSalary),
+                csvSafe(riceSubsidy),
+                csvSafe(phoneAllowance),
+                csvSafe(clothingAllowance),
+                csvSafe(grossSemiMonthlyRate),
+                csvSafe(hourlyRate)
         );
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(employeeFilePath, true))) {

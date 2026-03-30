@@ -1,6 +1,7 @@
 package app;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.UIManager;
 import swingui.LoginPage;
 
@@ -32,7 +33,7 @@ public class MotorPHPayrollNew {
  */
     private static void uiManager() {
         try {
-            FlatDarkLaf.setup();
+            FlatLightLaf.setup();
         } catch (Exception e) {
             try {
                 UIManager.setLookAndFeel(

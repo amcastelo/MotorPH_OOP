@@ -12,9 +12,7 @@ import java.util.List;
  */
 public class SSSFileManager implements FileLoader<SSS>{
 
-    private static final String TXT_FILE_PATH = "src/main/resources/SSSCont1.txt";
-
-
+    private static final String TXT_FILE_PATH = "src/main/resources/SSSCont1.csv";
     
     /**
      * Loads file.

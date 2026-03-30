@@ -1,7 +1,3 @@
-
-
-
-
 package swingui;
 
 import javax.swing.*;
@@ -20,12 +16,6 @@ import model.Employee;
 import controller.DashboardController;
 import service.AttendanceService;
 import swingui.MotorPHMain;
-
-
-
-
-
-
 
 /**
  * Represents the login page component used in the swingui layer.
@@ -275,7 +265,7 @@ public class LoginPage extends javax.swing.JFrame {
 
         loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         loginButton.putClientProperty("FlatLaf.style",
-                "arc: 12; font: 14; focusWidth: 1; background: @accentColor; foreground: #ffffff;");
+                "arc: 12; font: 14; focusWidth: 1; background: @accentColor;");
         loginButton.setPreferredSize(new Dimension(0, 44));
 
         statusLabel.putClientProperty("FlatLaf.style", "foreground: fade(@foreground,70%);");
