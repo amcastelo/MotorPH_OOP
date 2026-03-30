@@ -482,25 +482,25 @@ public class EmployeeFileManager implements FileLoader<Employee> {
         }
 
         String line = String.join(",",
-                employeeId,
-                lastName,
-                firstName,
-                birthday,
-                address,
-                phoneNumber,
-                sss,
-                philHealth,
-                tin,
-                pagibig,
-                status,
-                position,
-                immediateSupervisor,
-                basicSalary,
-                riceSubsidy,
-                phoneAllowance,
-                clothingAllowance,
-                grossSemiMonthlyRate,
-                hourlyRate
+                csvSafe(employeeId),
+                csvSafe(lastName),
+                csvSafe(firstName),
+                csvSafe(birthday),
+                csvSafe(address), // ✅ FIX HERE
+                csvSafe(phoneNumber),
+                csvSafe(sss),
+                csvSafe(philHealth),
+                csvSafe(tin),
+                csvSafe(pagibig),
+                csvSafe(status),
+                csvSafe(position),
+                csvSafe(immediateSupervisor),
+                csvSafe(basicSalary),
+                csvSafe(riceSubsidy),
+                csvSafe(phoneAllowance),
+                csvSafe(clothingAllowance),
+                csvSafe(grossSemiMonthlyRate),
+                csvSafe(hourlyRate)
         );
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(employeeFilePath, true))) {
