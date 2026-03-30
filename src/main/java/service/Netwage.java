@@ -36,7 +36,7 @@ public class Netwage {
      */
     public double calculate(String empID, int month) {
         AttendanceService attendanceService =
-        new AttendanceService("data/AttendanceRecord5.txt");
+        new AttendanceService("data/AttendanceRecord5.csv");
 
         DeductionCalculation sss = new SSS();
         DeductionCalculation philhealth = new Philhealth();
