@@ -99,7 +99,7 @@ public class LoginPage extends javax.swing.JFrame {
 
 
                     MotorPHMain view = new MotorPHMain();
-                    AttendanceService attendanceService = new AttendanceService("data/AttendanceRecord5.txt");
+                    AttendanceService attendanceService = new AttendanceService("data/AttendanceRecord5.csv");
                     DashboardController controller = new DashboardController(view, attendanceService, currentEmployee);
 
                     controller.init();
