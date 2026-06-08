@@ -1,7 +1,3 @@
-
-
-
-
 package service;
 
 import model.Employee;
@@ -14,11 +10,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-
-
-
-
 
 /**
  * Represents the attendance writer component used in the service layer.

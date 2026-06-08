@@ -2,20 +2,12 @@ package swingui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.JTextComponent;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
 
 import dao.EmployeeFileManager;
 import service.AuthService;
-import service.LoginResult;
-import service.AppSession;
-import model.Employee;
-import controller.DashboardController;
-import service.AttendanceService;
-import swingui.MotorPHMain;
+import java.util.function.BiConsumer;
 
 /**
  * Represents the login page component used in the swingui layer.
@@ -40,8 +32,7 @@ public class LoginPage extends javax.swing.JFrame {
     private JProgressBar loadingBar;
 
     private char defaultEchoChar;
-
-
+    private BiConsumer<String, String> loginHandler;
 
 /**
  * Creates a new LoginPage instance.
@@ -49,7 +40,7 @@ public class LoginPage extends javax.swing.JFrame {
     public LoginPage() {
         initComponents();
         initComponents();
-        buildModernUI();
+        buildUI();
         setTitle("Sign in");
         setMinimumSize(new Dimension(980, 560));
         setLocationRelativeTo(null);
@@ -58,73 +49,20 @@ public class LoginPage extends javax.swing.JFrame {
 /**
  * Handles sign in.
  */
-    private void signIn() {
-        String username = emailField.getText().trim();
-        String password = new String(passwordField.getPassword()).trim();
+    private void signIn() {   
+        String username = emailField.getText();
+        String password =
+                new String(passwordField.getPassword());
 
-        if (username.isEmpty() || password.isEmpty()) {
-            setError("Please enter both username and password.");
-            return;
-        }
-
-
-        setLoading(true);
-        setStatus("Signing in...");
-
-        LoginResult result = authService.authenticate(username, password);
-
-        if (result.isSuccess()) {
-            Employee loggedInEmployee = result.getEmployee();
-            String roleLabel = loggedInEmployee == null ? "" : loggedInEmployee.getPosition();
-
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Login successful! Welcome to MotorPH.\nRole/Position: " + roleLabel,
-                    "Success",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
-
-            emailField.setText("");
-            passwordField.setText("");
-
-            final LoginPage currentLoginPage = this;
-            final Employee currentEmployee = loggedInEmployee;
-
-            java.awt.EventQueue.invokeLater(() -> {
-                try {
-
-                    AppSession.setCurrentUser(currentEmployee);
-
-
-                    MotorPHMain view = new MotorPHMain();
-                    AttendanceService attendanceService = new AttendanceService("data/AttendanceRecord5.csv");
-                    DashboardController controller = new DashboardController(view, attendanceService, currentEmployee);
-
-                    controller.init();
-                    currentLoginPage.dispose();
-                } catch (Exception e) {
-                    logger.log(Level.SEVERE, "Error launching main application", e);
-                    JOptionPane.showMessageDialog(null, "Error launching application: " + e.getMessage());
-
-                    currentLoginPage.setVisible(true);
-                    currentLoginPage.setLoading(false);
-                    currentLoginPage.setError("Failed to launch application.");
-                }
-            });
-
-        } else {
-            setLoading(false);
-            setError(result.getMessage());
-            passwordField.setText("");
+        if (loginHandler != null) {
+            loginHandler.accept(username, password);
         }
     }
-
+    
 /**
  * Builds modern ui.
  */
-    private void buildModernUI() {
+    private void buildUI() {
         JPanel root = new JPanel(new BorderLayout());
         root.setBorder(new EmptyBorder(24, 24, 24, 24));
         root.putClientProperty("FlatLaf.style", "background: darken(@background,2%);");
@@ -136,7 +74,6 @@ public class LoginPage extends javax.swing.JFrame {
         grid.add(buildFormPanel());
 
         root.add(grid, BorderLayout.CENTER);
-
 
         setContentPane(root);
         revalidate();
@@ -207,8 +144,9 @@ public class LoginPage extends javax.swing.JFrame {
         JLabel c = new JLabel(text);
         c.setBorder(new EmptyBorder(6, 10, 6, 10));
         c.putClientProperty("FlatLaf.style",
-                "background: lighten(@background,3%); border: 1,1,1,1, fade(@foreground,12%);"
-                        + "foreground: fade(@foreground,75%);");
+                            "background: lighten(@background,3%);"
+                            + "border: 1,1,1,1, fade(@foreground,12%);"
+                            + "foreground: fade(@foreground,75%);");
         c.setOpaque(true);
         return c;
     }
@@ -225,19 +163,21 @@ public class LoginPage extends javax.swing.JFrame {
 
 
         emailField = new JTextField();
+        
         passwordField = new JPasswordField();
             passwordField.addActionListener(e -> signIn());
+            
         rememberMe = new JCheckBox("Remember me");
         showPassword = new JCheckBox("Show");
 
         loginButton = new JButton("Sign in");
             loginButton.addActionListener(e -> signIn());
+            
         forgotButton = new JButton("Forgot password?");
         createButton = new JButton("Create account");
 
         statusLabel = new JLabel(" ");
         loadingBar = new JProgressBar();
-
 
         styleField(emailField);
         emailField.putClientProperty("JTextField.placeholderText", "name@company.com");
@@ -274,9 +214,7 @@ public class LoginPage extends javax.swing.JFrame {
         loadingBar.setVisible(false);
         loadingBar.putClientProperty("FlatLaf.style", "arc: 999;");
 
-
         showPassword.addActionListener(e -> setPasswordVisible(showPassword.isSelected()));
-
 
         GridBagConstraints gc = new GridBagConstraints();
         gc.gridx = 0;
@@ -410,7 +348,11 @@ public class LoginPage extends javax.swing.JFrame {
         statusLabel.putClientProperty("FlatLaf.style", "foreground: #ff6b6b;");
         statusLabel.setText(text == null || text.isBlank() ? " " : text);
     }
-
+    
+    public void setLoginHandler(
+        BiConsumer<String, String> handler) {
+    this.loginHandler = handler;
+    }
 
 /**
  * Handles on login.
@@ -461,7 +403,6 @@ public class LoginPage extends javax.swing.JFrame {
         return rememberMe.isSelected();
     }
 
-
 /**
  * Represents the rounded panel component used in the swingui layer.
  */
@@ -499,16 +440,8 @@ public class LoginPage extends javax.swing.JFrame {
             super.paintComponent(g);
         }
     }
-
-
-
-
-
-
-
-
+    
     @SuppressWarnings("unchecked")
-
 /**
  * Initializes components.
  */
@@ -529,7 +462,4 @@ public class LoginPage extends javax.swing.JFrame {
 
         pack();
     }
-
-
-
 }

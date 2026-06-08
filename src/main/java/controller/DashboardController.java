@@ -49,18 +49,14 @@ public class DashboardController {
     public void init() {
         view.setEmployee(employee);
 
-
         view.onNavSelect(view::showPage);
-
 
         view.addNavItem("Dashboard");
         view.showPage("Dashboard");
 
-
         PayrollHistoryPage payrollHistoryPage = new PayrollHistoryPage(payrollLedgerRepository, employee);
         view.registerPage("My Payroll", payrollHistoryPage);
         view.addNavItem("My Payroll");
-
 
         if (employee.can(Permission.RUN_PAYROLL)) {
             view.registerPage(
@@ -75,17 +71,14 @@ public class DashboardController {
             view.addNavItem("Payroll");
         }
 
-
         LeaveRequestPage leaveRequestPage = new LeaveRequestPage(leaveLedgerRepository, employee);
         view.registerPage("Leave Request", leaveRequestPage);
         view.addNavItem("Leave Request");
-
 
         if (employee.can(Permission.APPROVE_LEAVE)) {
             view.registerPage("Leave Approval", new LeaveApprovalPage(leaveLedgerRepository, employee));
             view.addNavItem("Leave Approval");
         }
-
 
         if (employee.can(Permission.EDIT_EMPLOYEES)
                 || employee.can(Permission.ADD_EMPLOYEES)
@@ -96,7 +89,6 @@ public class DashboardController {
             view.registerPage("Employee Management", new HREmployeeManagementPage(employeeFileManager, employee));
             view.addNavItem("Employee Management");
         }
-
 
         view.onTimeIn(e -> {
             attendanceService.timeIn(employee);
@@ -119,10 +111,7 @@ public class DashboardController {
             view.closeWindow();
             SwingUtilities.invokeLater(() -> new LoginPage().setVisible(true));
         });
-
-
         reloadAttendance();
-
         view.showWindow();
     }
 
@@ -130,7 +119,6 @@ public class DashboardController {
      * Reloads attendance.
      */
     private void reloadAttendance() {
-
         SwingUtilities.invokeLater(() -> {
             List<AttendanceEntry> entries = attendanceService.getAllFor(employee);
             view.setAttendance(entries);
