@@ -1,7 +1,3 @@
-
-
-
-
 package swingui;
 
 import model.AttendanceEntry;
@@ -15,10 +11,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.Consumer;
-
-
-
-
 
 /**
  * Represents the motor phmain component used in the swingui layer.

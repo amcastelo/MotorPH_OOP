@@ -15,7 +15,6 @@ public class SSS implements DeductionCalculation {
 
     private static double sssDeduction;
 
-
     /**
      * Creates a new SSS instance.
      * @param compensationRange input value needed by this method.

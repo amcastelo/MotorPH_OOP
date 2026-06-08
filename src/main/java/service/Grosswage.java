@@ -72,42 +72,42 @@ public class Grosswage {
     }
 
 
-/**
- * Calculates gross pay using an already-computed total hours value.
- *
- * <p>This overload is intended for scenarios where attendance is filtered elsewhere
- * (e.g., date-range payroll computation). It retains the same gross logic
- * (hourlyRate × totalHours) while avoiding duplicated parsing.</p>
- *
- * @param employee employee object
- * @param totalHours total work hours for the target period
- * @return gross pay
- */
-public double calculate(Employee employee, double totalHours) {
-    reset();
+    /**
+     * Calculates gross pay using an already-computed total hours value.
+     *
+     * <p>This overload is intended for scenarios where attendance is filtered elsewhere
+     * (e.g., date-range payroll computation). It retains the same gross logic
+     * (hourlyRate × totalHours) while avoiding duplicated parsing.</p>
+     *
+     * @param employee employee object
+     * @param totalHours total work hours for the target period
+     * @return gross pay
+     */
+    public double calculate(Employee employee, double totalHours) {
+        reset();
 
-    if (employee == null) return 0;
+        if (employee == null) return 0;
 
-    this.employeeID = employee.getEmployeeNumber();
-    this.employeeName = employee.getLastName() + ", " + employee.getFirstName();
+        this.employeeID = employee.getEmployeeNumber();
+        this.employeeName = employee.getLastName() + ", " + employee.getFirstName();
 
-    Salary salary = employee.getSalary();
-    if (salary == null) return 0;
+        Salary salary = employee.getSalary();
+        if (salary == null) return 0;
 
-    this.hourly = salary.getHourlyRate();
-    this.hours = Math.max(0, totalHours);
-    this.gross = this.hourly * this.hours;
+        this.hourly = salary.getHourlyRate();
+        this.hours = Math.max(0, totalHours);
+        this.gross = this.hourly * this.hours;
 
-    return this.gross;
-}
+        return this.gross;
+    }
 
-/**
- * Reusable hour computation used across the payroll services.
- * Kept public to avoid duplicating parsing logic in multiple classes.
- */
-public static double computeHoursPublic(String timeIn, String timeOut) {
-    return computeHours(timeIn, timeOut);
-}
+    /**
+     * Reusable hour computation used across the payroll services.
+     * Kept public to avoid duplicating parsing logic in multiple classes.
+     */
+    public static double computeHoursPublic(String timeIn, String timeOut) {
+        return computeHours(timeIn, timeOut);
+    }
 
 
 

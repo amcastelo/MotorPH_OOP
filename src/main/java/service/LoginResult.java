@@ -10,7 +10,7 @@ public final class LoginResult {
     private final boolean success;
     private final String message;
     private final Employee employee;
-
+    
     /**
      * Creates a new LoginResult instance.
      * @param success input value needed by this method.
